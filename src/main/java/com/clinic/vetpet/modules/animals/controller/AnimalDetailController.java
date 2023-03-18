@@ -1,6 +1,6 @@
 package com.clinic.vetpet.modules.animals.controller;
 
-import com.clinic.vetpet.controller.BaseConroller;
+import com.clinic.vetpet.common.controller.BaseConroller;
 import com.clinic.vetpet.modules.animals.models.AnimalDetail;
 import com.clinic.vetpet.modules.animals.models.AnimalDetailDto;
 import com.clinic.vetpet.modules.animals.service.AnimalDetailService;

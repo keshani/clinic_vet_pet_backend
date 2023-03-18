@@ -1,4 +1,4 @@
-package com.clinic.vetpet.controller;
+package com.clinic.vetpet.common.controller;
 
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;

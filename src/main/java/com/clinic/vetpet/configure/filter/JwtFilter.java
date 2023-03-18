@@ -1,5 +1,6 @@
 package com.clinic.vetpet.configure.filter;
 
+import com.clinic.vetpet.common.util.GlobalConstants;
 import com.clinic.vetpet.configure.security.AppUserDetailsService;
 import com.clinic.vetpet.configure.util.JWTUtil;
 import jakarta.servlet.FilterChain;
@@ -15,6 +16,14 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
+import java.util.Set;
+
+/**
+ * JWTFilter to filter all the requests except whitlised urls
+ *
+ * @author Keshani
+ * @since 2023/03/15
+ */
 
 @Service
 public class JwtFilter extends OncePerRequestFilter {
@@ -46,7 +55,9 @@ public class JwtFilter extends OncePerRequestFilter {
     protected boolean shouldNotFilter(HttpServletRequest request)
             throws ServletException {
         String path = request.getRequestURI();
-        return path.contains("/h2-console") || path.contains("authenticate") ||  path.contains("registerUser") ;
+        Set<String> searchStrings = GlobalConstants.WHITE_LIST_URL;
+        // Pass JWTfilter check for white listed urls
+        return searchStrings.stream().anyMatch(path::contains);
     }
 
 }

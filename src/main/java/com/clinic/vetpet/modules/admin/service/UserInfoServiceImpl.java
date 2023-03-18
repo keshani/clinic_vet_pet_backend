@@ -1,6 +1,9 @@
 package com.clinic.vetpet.modules.admin.service;
 
+import com.clinic.vetpet.common.util.RoleTypes;
+import com.clinic.vetpet.modules.admin.models.Role;
 import com.clinic.vetpet.modules.admin.models.UserDto;
+import com.clinic.vetpet.modules.admin.repository.RolesRepository;
 import com.clinic.vetpet.modules.admin.repository.UserInfoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -11,6 +14,7 @@ import org.springframework.stereotype.Service;
 import com.clinic.vetpet.modules.admin.models.User;
 
 import java.util.Optional;
+import java.util.Set;
 
 
 /**
@@ -24,6 +28,9 @@ public class UserInfoServiceImpl implements UserInfoService {
 
     @Autowired
     private UserInfoRepository userInfoRepository;
+
+    @Autowired
+    private RolesRepository rolesRepository;
 
     @Autowired
     private BCryptPasswordEncoder bCryptPasswordEncoder;
@@ -47,8 +54,11 @@ public class UserInfoServiceImpl implements UserInfoService {
         if(!existingUser.isEmpty()) {
             throw new RuntimeException("UserName is alredy exisist");
         }
+        Role userRole = rolesRepository.findByName(RoleTypes.USER);
+        Set<Role> roleSet = Set.of(userRole);
         User userInfo = new User();
         userInfo.setUserId(userDto.getUserId());
+        userInfo.setRoles(roleSet);
         userInfo.setPassword(this.bCryptPasswordEncoder.encode(userDto.getPassword()));
         userInfo.setUserFullName(userDto.getUserFullName());
         userInfo.setEnabled(true);

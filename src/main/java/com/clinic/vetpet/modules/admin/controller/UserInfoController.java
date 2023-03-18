@@ -1,6 +1,6 @@
 package com.clinic.vetpet.modules.admin.controller;
 
-import com.clinic.vetpet.controller.BaseConroller;
+import com.clinic.vetpet.common.controller.BaseConroller;
 import com.clinic.vetpet.modules.admin.models.User;
 import com.clinic.vetpet.modules.admin.models.UserDto;
 import com.clinic.vetpet.modules.admin.service.UserInfoService;
@@ -16,10 +16,10 @@ import javax.validation.Valid;
 
 
 /**
- * Controller class to handle all the City view operations
+ * Controller class to handle user information
  *
  * @author Keshani
- * @since 2021/11/13
+ * @since 2023/03/13
  */
 
 @CrossOrigin

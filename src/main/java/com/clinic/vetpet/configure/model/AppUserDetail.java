@@ -12,10 +12,10 @@ import java.util.List;
 import java.util.Set;
 
 /**
- * UserDetail model to authenticate principle
+ * AppUserDetail model to authenticate principle
  *
  * @author Keshani
- * @since 2021/11/13
+ * @since 2023/03/15
  */
 public class AppUserDetail implements UserDetails {
 
@@ -30,7 +30,7 @@ public class AppUserDetail implements UserDetails {
         Set<Role> roles = user.getRoles();
         List<SimpleGrantedAuthority> authorities = new ArrayList<>();
         for (Role role : roles) {
-            authorities.add(new SimpleGrantedAuthority(role.getName()));
+            authorities.add(new SimpleGrantedAuthority(role.getName().name()));
         }
         return authorities;
     }

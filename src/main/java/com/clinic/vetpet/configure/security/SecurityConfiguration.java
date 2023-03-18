@@ -1,5 +1,6 @@
 package com.clinic.vetpet.configure.security;
 
+import com.clinic.vetpet.common.util.GlobalConstants;
 import com.clinic.vetpet.configure.filter.JwtFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -41,7 +42,7 @@ public class SecurityConfiguration {
 
     @Bean
     public WebSecurityCustomizer webSecurityCustomizer() {
-        return (web) -> web.ignoring().requestMatchers(new AntPathRequestMatcher("/h2-console/**"));
+        return (web) -> web.ignoring().requestMatchers(new AntPathRequestMatcher(GlobalConstants.IN_MEMORY_URL));
     }
 
     @Bean
@@ -51,8 +52,8 @@ public class SecurityConfiguration {
                 .cors().and()
                 .csrf().disable()
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/clinicvetpet/v1/authenticate").permitAll()
-                        .requestMatchers("/clinicvetpet/v1/userInfoHandler/registerUser").permitAll()
+                        .requestMatchers(GlobalConstants.AUTHENTICATE_URL).permitAll()
+                        .requestMatchers(GlobalConstants.USER_REGISTER_URL).permitAll()
                         .anyRequest().authenticated())
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class)
@@ -64,7 +65,6 @@ public class SecurityConfiguration {
     }
     @Bean
     PasswordEncoder getPasswordEncorder() {
-
         return new BCryptPasswordEncoder();
     }
 
@@ -76,15 +76,15 @@ public class SecurityConfiguration {
 
 
 
-    @Bean
-    public CorsConfigurationSource corsConfiguration() {
-        CorsConfiguration corsConfig = new CorsConfiguration();
-        corsConfig.applyPermitDefaultValues();
-        corsConfig.addAllowedOrigin("http://localhost:4200");
-        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-        source.registerCorsConfiguration("/**", corsConfig);
-        return source;
-    }
+//    @Bean
+//    public CorsConfigurationSource corsConfiguration() {
+//        CorsConfiguration corsConfig = new CorsConfiguration();
+//        corsConfig.applyPermitDefaultValues();
+//        corsConfig.addAllowedOrigin("http://localhost:4200");
+//        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+//        source.registerCorsConfiguration("/**", corsConfig);
+//        return source;
+//    }
 
 //    @Bean
 //    public CorsFilter corsFilter() {

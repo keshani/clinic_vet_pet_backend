@@ -3,7 +3,7 @@ package com.clinic.vetpet.configure.security;
 import com.clinic.vetpet.configure.model.AuthenticationRequest;
 import com.clinic.vetpet.configure.model.AuthenticationResponse;
 import com.clinic.vetpet.configure.util.JWTUtil;
-import com.clinic.vetpet.controller.BaseConroller;
+import com.clinic.vetpet.common.controller.BaseConroller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;

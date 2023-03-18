@@ -1,6 +1,6 @@
 package com.clinic.vetpet.modules.admin.models;
 
-import com.clinic.vetpet.common.util.RoleTypes;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -32,5 +32,6 @@ public class Role {
     private RoleTypes name;
 
     @ManyToMany(mappedBy = "roles", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JsonIgnore
     private Set<User> users = new HashSet<>();
 }

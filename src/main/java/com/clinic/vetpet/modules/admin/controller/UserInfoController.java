@@ -10,6 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -31,6 +33,7 @@ public class UserInfoController extends BaseConroller {
     @Autowired
     private UserInfoService userInfoService;
 
+    @PreAuthorize(value = "hasRole('ROLE_ADMIN')")
     @GetMapping("/userInfoHandler/fetchAllUsers")
     public ResponseEntity fetchAllUsers(UserDto userDto) {
         try {
@@ -41,6 +44,8 @@ public class UserInfoController extends BaseConroller {
             return ResponseEntity.status(HttpStatus.NO_CONTENT).body(null);
         }
     }
+
+    @PreAuthorize(value = "hasRole('ROLE_ADMIN')")
     @GetMapping("/userInfoHandler/getUserInfo/{userId}")
     public ResponseEntity getUserInfo(@PathVariable String userId ) {
         try {
@@ -75,6 +80,7 @@ public class UserInfoController extends BaseConroller {
         }
     }
 
+    @PreAuthorize(value = "hasRole('ROLE_ADMIN')")
     @DeleteMapping("/userInfoHandler/deleteUser/{userId}")
     public ResponseEntity deleteUser( @PathVariable String userId) {
         try {

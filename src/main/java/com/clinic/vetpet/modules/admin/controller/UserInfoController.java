@@ -35,9 +35,9 @@ public class UserInfoController extends BaseConroller {
 
     @PreAuthorize(value = "hasRole('ROLE_ADMIN')")
     @GetMapping("/userInfoHandler/fetchAllUsers")
-    public ResponseEntity fetchAllUsers(UserDto userDto) {
+    public ResponseEntity fetchAllUsers(@Valid UserDto userDto) {
         try {
-          Page<User> userList = userInfoService.getListOfUsers(userDto);
+            Page<UserDto> userList = userInfoService.getListOfUsers(userDto);
           return ResponseEntity.ok().body(userList);
         } catch (Exception ex) {
             LOGGER.error("userInfoController::fetchAllUsers Error", ex);
@@ -45,7 +45,6 @@ public class UserInfoController extends BaseConroller {
         }
     }
 
-    @PreAuthorize(value = "hasRole('ROLE_ADMIN')")
     @GetMapping("/userInfoHandler/getUserInfo/{userId}")
     public ResponseEntity getUserInfo(@PathVariable String userId ) {
         try {

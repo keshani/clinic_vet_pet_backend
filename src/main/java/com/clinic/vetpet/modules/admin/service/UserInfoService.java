@@ -9,7 +9,7 @@ import java.util.List;
 
 @Service
 public interface UserInfoService {
-    Page<User> getListOfUsers(UserDto userDto);
+    Page<UserDto> getListOfUsers(UserDto userDto);
 
     User getUserInfo(String userId);
 

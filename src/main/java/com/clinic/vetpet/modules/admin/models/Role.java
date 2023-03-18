@@ -31,7 +31,7 @@ public class Role {
     @Enumerated(EnumType.STRING)
     private RoleTypes name;
 
-    @ManyToMany(mappedBy = "roles", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @ManyToMany(mappedBy = "roles", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JsonIgnore
     private Set<User> users = new HashSet<>();
 }

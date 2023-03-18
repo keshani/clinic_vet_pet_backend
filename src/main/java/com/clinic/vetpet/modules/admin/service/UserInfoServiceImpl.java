@@ -5,6 +5,8 @@ import com.clinic.vetpet.modules.admin.models.Role;
 import com.clinic.vetpet.modules.admin.models.UserDto;
 import com.clinic.vetpet.modules.admin.repository.RolesRepository;
 import com.clinic.vetpet.modules.admin.repository.UserInfoRepository;
+import com.clinic.vetpet.modules.animals.models.AnimalDetail;
+import com.clinic.vetpet.modules.animals.service.AnimalDetailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -13,8 +15,10 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import com.clinic.vetpet.modules.admin.models.User;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.Set;
+import java.util.function.Function;
 
 
 /**
@@ -35,10 +39,30 @@ public class UserInfoServiceImpl implements UserInfoService {
     @Autowired
     private BCryptPasswordEncoder bCryptPasswordEncoder;
 
+    @Autowired
+    private AnimalDetailService animalDetailService;
+
     @Override
-    public Page<User> getListOfUsers(UserDto userDto) {
+    public Page<UserDto> getListOfUsers(UserDto userDto) {
         Pageable pageable = PageRequest.of(userDto.getPageNumber(), userDto.getPageSize());
-        return userInfoRepository.findAll(pageable);
+        Page<User> userPage = userInfoRepository.findAll(pageable);
+        List<User> userList = userPage.getContent();
+        Page<UserDto> userDtoPage = userPage.map(new Function<User, UserDto>() {
+            @Override
+            public UserDto apply(User entity) {
+                List<AnimalDetail> animalList = animalDetailService.getListOfAnimalsByUser(entity.getUserId());
+                int animalCount = 0;
+                if(!animalList.isEmpty()) {
+                    animalCount = animalList.size();
+                }
+                UserDto userDto = new UserDto();
+                userDto.setUserFullName(entity.getUserFullName());
+                userDto.setUserId(entity.getUserId());
+                userDto.setAnimalCount(animalCount);
+                return userDto;
+            }
+        });
+        return userDtoPage;
     }
 
     @Override

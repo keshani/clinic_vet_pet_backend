@@ -47,7 +47,8 @@ public class User {
     )
     private Set<Role> roles = new HashSet<>();
 
-//    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
-//    private List<AnimalDetail> animals;
+    @OneToMany(mappedBy = "owner", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
+    @JsonIgnore
+    private List<AnimalDetail> animals;
 
 }

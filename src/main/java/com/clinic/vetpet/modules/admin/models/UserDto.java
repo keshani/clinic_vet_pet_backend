@@ -6,6 +6,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.validation.constraints.NotNull;
@@ -19,6 +20,7 @@ import java.util.List;
  */
 @Getter
 @Setter
+@NoArgsConstructor
 public class UserDto {
     private String userId;
     private String userFullName;
@@ -29,4 +31,11 @@ public class UserDto {
     private int pageNumber;
     private int animalCount;
 
+
+    public UserDto(String userId, String userFullName, String password, boolean enabled) {
+        this.userId = userId;
+        this.userFullName = userFullName;
+        this.password = password;
+        this.enabled = enabled;
+    }
 }

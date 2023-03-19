@@ -26,7 +26,8 @@ import java.util.List;
 
 @CrossOrigin
 @RestController
-public class AnimalDetailController extends BaseConroller {
+@RequestMapping(value = "/clinicvetpet/v1/animalDetailHandler")
+public class AnimalDetailController {
 
     Logger LOGGER = LoggerFactory.getLogger(AnimalDetailController.class);
 
@@ -34,27 +35,28 @@ public class AnimalDetailController extends BaseConroller {
     private AnimalDetailService animalDetailService;
 
     @PreAuthorize(value = "hasRole('ROLE_ADMIN')")
-    @GetMapping("/fetchAllAnimals")
+    @GetMapping("/animals")
     public ResponseEntity fetchAnimalForUser(@Valid AnimalDetailDto animalDetailDto) {
         try {
           Page<AnimalDetail> animalList = animalDetailService.getListOfAnimals(animalDetailDto);
           return ResponseEntity.ok().body(animalList);
         } catch (Exception ex) {
             LOGGER.error("AnimalDetailController::fetchAllAnimals Error", ex);
-            return ResponseEntity.status(HttpStatus.NO_CONTENT).body(null);
+            throw ex;
         }
     }
-    @GetMapping("/animalDetailHandler/getAnimalByUserId/{ownerId}")
+
+    @GetMapping("/animals/{ownerId}")
     public ResponseEntity getAnimalByUserId(@PathVariable String ownerId) {
         try {
             List<AnimalDetail> animalList = animalDetailService.getListOfAnimalsByUser(ownerId);
             return ResponseEntity.ok().body(animalList);
         } catch (Exception ex) {
             LOGGER.error("AnimalDetailController::getAnimalByUserId Error", ex);
-            return ResponseEntity.status(HttpStatus.NO_CONTENT).body(null);
+            throw ex;
         }
     }
-    @PostMapping("/animalDetailHandler/addAnimalDetails/{ownerId}")
+    @PostMapping("/animals/{ownerId}")
     public ResponseEntity addAnimalDetails(@Valid @PathVariable String ownerId, @RequestBody AnimalDetailDto animalDetailDto) {
         try {
             animalDetailService.addAnimalDetail(animalDetailDto);
@@ -62,23 +64,24 @@ public class AnimalDetailController extends BaseConroller {
             return ResponseEntity.ok().body(null);
         } catch (Exception ex) {
             LOGGER.info("AnimalDetailController::addAnimalDetail Error - ", animalDetailDto.getId());
-            return ResponseEntity.status(500).body(null);
+            throw ex;
         }
     }
 
-    @PutMapping("/animalDetailHandler/updateAnimalDetails/{ownerId}")
-    public ResponseEntity updateAnimalDetails(@Valid @RequestBody AnimalDetailDto animalDetailDto) {
+    @PutMapping("/animals/{ownerId}/{id}")
+    public ResponseEntity updateAnimalDetails(@Valid @RequestBody AnimalDetailDto animalDetailDto, @PathVariable Long id) {
         try {
+            animalDetailDto.setId(id);
             animalDetailService.updateAnimalDetail(animalDetailDto);
             LOGGER.info("AnimalDetailController::updateAnimalDetails Sucess - ", animalDetailDto.getId());
             return ResponseEntity.ok().body(null);
         } catch (Exception ex) {
             LOGGER.info("AnimalDetailController::updateAnimalDetails Error - ", animalDetailDto.getId());
-            return ResponseEntity.status(500).body(null);
+            throw ex;
         }
     }
 
-    @DeleteMapping("/animalDetailHandler/deleteAnimalDetails/{animalId}")
+    @DeleteMapping("/animals/{animalId}")
     public ResponseEntity deleteAnimalDetails( @PathVariable Long animalId) {
         try {
             animalDetailService.deleteAnimalDetail(animalId);
@@ -86,7 +89,7 @@ public class AnimalDetailController extends BaseConroller {
             return ResponseEntity.ok().body(null);
         } catch (Exception ex) {
             LOGGER.info("AnimalDetailController::deleteAnimalDetails Error - ", animalId);
-            return ResponseEntity.status(500).body(null);
+            throw ex;
         }
     }
 

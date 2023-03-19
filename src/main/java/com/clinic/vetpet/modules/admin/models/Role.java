@@ -2,7 +2,9 @@ package com.clinic.vetpet.modules.admin.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.validation.constraints.NotNull;
@@ -16,6 +18,8 @@ import java.util.Set;
  * @since 2021/11/13
  */
 
+@AllArgsConstructor
+@NoArgsConstructor
 @Entity
 @Table(name = "ROLES")
 @Getter
@@ -34,4 +38,13 @@ public class Role {
     @ManyToMany(mappedBy = "roles", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JsonIgnore
     private Set<User> users = new HashSet<>();
+
+    public Role(RoleTypes name) {
+        this.name = name;
+    }
+
+    public Role(Integer id, RoleTypes name) {
+        this.id = id;
+        this.name = name;
+    }
 }

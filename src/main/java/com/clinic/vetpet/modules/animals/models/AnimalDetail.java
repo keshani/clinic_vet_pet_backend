@@ -3,7 +3,9 @@ package com.clinic.vetpet.modules.animals.models;
 import com.clinic.vetpet.modules.admin.models.User;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.validation.constraints.NotNull;
@@ -15,6 +17,8 @@ import java.io.Serializable;
  * @author Keshani
  * @since 2021/11/13
  */
+@NoArgsConstructor
+@AllArgsConstructor
 @Getter
 @Setter
 @Entity
@@ -25,18 +29,19 @@ public class AnimalDetail implements Serializable {
     @GeneratedValue
     private Long id;
 
+    @NotNull
     @Column(name = "ANIMAL_NAME", nullable = false)
     private String animalName;
 
+    @NotNull
     @Column(name = "ANIMAL_TYPE", nullable = false)
     @Enumerated(EnumType.STRING)
     private AnimalTypes animalType;
 
-
+    @NotNull
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "USER_ID", nullable = false)
     @JsonIgnore
     private User owner;
-
 
 }

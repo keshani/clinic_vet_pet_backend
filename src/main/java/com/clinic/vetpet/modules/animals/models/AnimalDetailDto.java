@@ -1,6 +1,7 @@
 package com.clinic.vetpet.modules.animals.models;
 
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 /**
@@ -11,6 +12,7 @@ import lombok.Setter;
  */
 @Setter
 @Getter
+@NoArgsConstructor
 public class AnimalDetailDto {
     private Long id;
     private String animalName;
@@ -19,4 +21,19 @@ public class AnimalDetailDto {
     private int pageSize;
     private int pageNumber;
 
+    public AnimalDetailDto(Long id, String animalName, AnimalTypes animalType, String ownerId) {
+        this.id = id;
+        this.animalName = animalName;
+        this.animalType = animalType;
+        this.ownerId = ownerId;
+    }
+
+    public AnimalDetailDto(Long id, String animalName, AnimalTypes animalType, String ownerId, int pageSize, int pageNumber) {
+        this.id = id;
+        this.animalName = animalName;
+        this.animalType = animalType;
+        this.ownerId = ownerId;
+        this.pageSize = pageSize;
+        this.pageNumber = pageNumber;
+    }
 }

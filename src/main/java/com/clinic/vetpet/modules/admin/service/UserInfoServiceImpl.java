@@ -1,7 +1,8 @@
 package com.clinic.vetpet.modules.admin.service;
 
-import com.clinic.vetpet.modules.admin.models.RoleTypes;
 import com.clinic.vetpet.modules.admin.models.Role;
+import com.clinic.vetpet.modules.admin.models.RoleTypes;
+import com.clinic.vetpet.modules.admin.models.User;
 import com.clinic.vetpet.modules.admin.models.UserDto;
 import com.clinic.vetpet.modules.admin.repository.RolesRepository;
 import com.clinic.vetpet.modules.admin.repository.UserInfoRepository;
@@ -13,7 +14,6 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
-import com.clinic.vetpet.modules.admin.models.User;
 
 import java.util.List;
 import java.util.Optional;
@@ -52,7 +52,7 @@ public class UserInfoServiceImpl implements UserInfoService {
             public UserDto apply(User entity) {
                 List<AnimalDetail> animalList = animalDetailService.getListOfAnimalsByUser(entity.getUserId());
                 int animalCount = 0;
-                if(!animalList.isEmpty()) {
+                if (!animalList.isEmpty()) {
                     animalCount = animalList.size();
                 }
                 UserDto userDto = new UserDto();
@@ -70,12 +70,10 @@ public class UserInfoServiceImpl implements UserInfoService {
         return userInfoRepository.findById(userId).get();
     }
 
-
     @Override
-    public void addUser(UserDto userDto) {
-
+    public User addUser(UserDto userDto) {
         Optional<User> existingUser = this.userInfoRepository.findById(userDto.getUserId());
-        if(!existingUser.isEmpty()) {
+        if (!existingUser.isEmpty()) {
             throw new RuntimeException("UserName is alredy exisist");
         }
         Role userRole = rolesRepository.findByName(RoleTypes.ROLE_USER);
@@ -86,18 +84,20 @@ public class UserInfoServiceImpl implements UserInfoService {
         userInfo.setPassword(this.bCryptPasswordEncoder.encode(userDto.getPassword()));
         userInfo.setUserFullName(userDto.getUserFullName());
         userInfo.setEnabled(true);
-        userInfoRepository.save(userInfo);
+        return userInfoRepository.save(userInfo);
     }
 
     @Override
-    public void updateUser(UserDto userDto) {
+    public User updateUser(UserDto userDto) {
         User userInfo = userInfoRepository.findById(userDto.getUserId())
-                  .orElseThrow(() -> new RuntimeException("Animal detail is not found for this id:" + userDto.getUserId()));
+                .orElseThrow(() -> new RuntimeException("User is not found for this id:" + userDto.getUserId()));
         userInfo.setUserFullName(userDto.getUserFullName());
-          userInfoRepository.save(userInfo);
+        return userInfoRepository.save(userInfo);
     }
 
     @Override
     public void deleteUser(String userInfoId) {
-     userInfoRepository.deleteById(userInfoId);
-}   }
+        userInfoRepository.deleteById(userInfoId);
+    }
+}
+

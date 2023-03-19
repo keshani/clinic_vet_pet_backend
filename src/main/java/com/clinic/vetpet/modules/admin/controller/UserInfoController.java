@@ -26,7 +26,8 @@ import javax.validation.Valid;
 
 @CrossOrigin
 @RestController
-public class UserInfoController extends BaseConroller {
+@RequestMapping(value = "/clinicvetpet/v1/userInfoHandler")
+public class UserInfoController {
 
     Logger LOGGER = LoggerFactory.getLogger(UserInfoController.class);
 
@@ -34,28 +35,28 @@ public class UserInfoController extends BaseConroller {
     private UserInfoService userInfoService;
 
     @PreAuthorize(value = "hasRole('ROLE_ADMIN')")
-    @GetMapping("/userInfoHandler/fetchAllUsers")
+    @GetMapping("/users")
     public ResponseEntity fetchAllUsers(@Valid UserDto userDto) {
         try {
             Page<UserDto> userList = userInfoService.getListOfUsers(userDto);
           return ResponseEntity.ok().body(userList);
         } catch (Exception ex) {
             LOGGER.error("userInfoController::fetchAllUsers Error", ex);
-            return ResponseEntity.status(HttpStatus.NO_CONTENT).body(null);
+            throw ex;
         }
     }
 
-    @GetMapping("/userInfoHandler/getUserInfo/{userId}")
+    @GetMapping("/users/{userId}")
     public ResponseEntity getUserInfo(@PathVariable String userId ) {
         try {
             User userInfo = userInfoService.getUserInfo(userId);
             return ResponseEntity.ok().body(userInfo);
         } catch (Exception ex) {
             LOGGER.error("userInfoController::getUserInfo Error", ex);
-            return ResponseEntity.status(HttpStatus.CONFLICT).body(ex);
+            throw ex;
         }
     }
-    @PostMapping("/userInfoHandler/registerUser")
+    @PostMapping("/registerUser")
     public ResponseEntity registerUser(@Valid @RequestBody UserDto userDto) {
         try {
             userInfoService.addUser(userDto);
@@ -63,24 +64,25 @@ public class UserInfoController extends BaseConroller {
             return ResponseEntity.ok().body(null);
         } catch (Exception ex) {
             LOGGER.error("userInfoController::addUser Error - ", ex);
-            return ResponseEntity.status(HttpStatus.CONFLICT).body(null);
+            throw ex;
         }
     }
 
-    @PutMapping("/userInfoHandler/updateUser/{userId}")
+    @PutMapping("/users/{userId}")
     public ResponseEntity updateUser(@Valid @RequestBody UserDto userDto, @PathVariable String userId) {
         try {
+            userDto.setUserId(userId);
             userInfoService.updateUser(userDto);
-            LOGGER.info("userInfoController::updateUser Sucess - ", userDto.getUserId());
+            LOGGER.info("userInfoController::updateUser Sucess - ", userId);
             return ResponseEntity.ok().body(null);
         } catch (Exception ex) {
             LOGGER.info("userInfoController::updateUser Error - ", userDto.getUserId());
-            return ResponseEntity.status(HttpStatus.CONFLICT).body(null);
+            throw ex;
         }
     }
 
     @PreAuthorize(value = "hasRole('ROLE_ADMIN')")
-    @DeleteMapping("/userInfoHandler/deleteUser/{userId}")
+    @DeleteMapping("/users/{userId}")
     public ResponseEntity deleteUser( @PathVariable String userId) {
         try {
             userInfoService.deleteUser(userId);
@@ -88,7 +90,7 @@ public class UserInfoController extends BaseConroller {
             return ResponseEntity.ok().body(null);
         } catch (Exception ex) {
             LOGGER.info("userInfoController::deleteUser Error - ", userId);
-            return ResponseEntity.status(HttpStatus.CONFLICT).body(null);
+            throw ex;
         }
     }
 

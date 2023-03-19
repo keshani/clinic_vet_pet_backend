@@ -3,7 +3,9 @@ package com.clinic.vetpet.modules.admin.models;
 import com.clinic.vetpet.modules.animals.models.AnimalDetail;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.validation.constraints.NotNull;
@@ -17,6 +19,8 @@ import java.util.Set;
  * @author Keshani
  * @since 2021/11/13
  */
+@AllArgsConstructor
+@NoArgsConstructor
 @Getter
 @Setter
 @Entity
@@ -51,4 +55,14 @@ public class User {
     @JsonIgnore
     private List<AnimalDetail> animals;
 
+    public User(String userId) {
+        this.userId = userId;
+    }
+
+    public User(String userId, String userFullName, String password, boolean enabled) {
+        this.userId = userId;
+        this.userFullName = userFullName;
+        this.password = password;
+        this.enabled = enabled;
+    }
 }

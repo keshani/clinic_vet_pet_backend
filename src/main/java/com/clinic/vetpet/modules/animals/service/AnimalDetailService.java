@@ -13,9 +13,9 @@ public interface AnimalDetailService {
 
     List<AnimalDetail> getListOfAnimalsByUser(String userId);
 
-    void addAnimalDetail(AnimalDetailDto animalDetailDto);
+    AnimalDetail addAnimalDetail(AnimalDetailDto animalDetailDto);
 
-    void updateAnimalDetail(AnimalDetailDto animalDetailDto);
+    AnimalDetail updateAnimalDetail(AnimalDetailDto animalDetailDto);
 
     void deleteAnimalDetail(Long animalDetailId);
 }

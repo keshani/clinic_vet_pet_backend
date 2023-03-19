@@ -37,23 +37,24 @@ public class AnimalDetailServiceImpl implements AnimalDetailService {
     }
 
     @Override
-    public void addAnimalDetail(AnimalDetailDto animalDetailDto) {
+    public AnimalDetail addAnimalDetail(AnimalDetailDto animalDetailDto) {
         AnimalDetail animalDetail = new AnimalDetail();
         User owner = new User();
         owner.setUserId(animalDetailDto.getOwnerId());
         animalDetail.setOwner(owner);
         animalDetail.setAnimalName(animalDetailDto.getAnimalName());
         animalDetail.setAnimalType(animalDetailDto.getAnimalType());
-        animalDetailRepository.save(animalDetail);
+        return animalDetailRepository.save(animalDetail);
     }
 
     @Override
-    public void updateAnimalDetail(AnimalDetailDto animalDetailDto) {
+    public AnimalDetail updateAnimalDetail(AnimalDetailDto animalDetailDto) {
           AnimalDetail animalDetail = animalDetailRepository.findById(animalDetailDto.getId())
                   .orElseThrow(() -> new RuntimeException("Animal detail is not found for this id:" + animalDetailDto.getId()));
           animalDetail.setAnimalName(animalDetailDto.getAnimalName());
           animalDetail.setAnimalType(animalDetailDto.getAnimalType());
           animalDetailRepository.save(animalDetail);
+          return animalDetail;
     }
 
     @Override

@@ -10,10 +10,10 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 /**
- * Repository to handle all the City Entity related CRUD operations
+ * Repository to handle all the User Entity related CRUD operations
  *
  * @author Keshani
- * @since 2021/11/13
+ * @since @since 2023/03/15
  */
 @Repository
 public interface UserInfoRepository extends JpaRepository<User, String> {

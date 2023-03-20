@@ -22,10 +22,10 @@ import java.util.function.Function;
 
 
 /**
- * Service layer to handle all the City operation logics
+ * Service layer to handle all the User operation logics
  *
  * @author Keshani
- * @since 2021/11/13
+ * @since 2023/03/15
  */
 @Service
 public class UserInfoServiceImpl implements UserInfoService {

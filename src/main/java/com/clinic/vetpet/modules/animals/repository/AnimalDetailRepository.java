@@ -9,10 +9,10 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 /**
- * Repository to handle all the City Entity related CRUD operations
+ * Repository to handle all the Animal Entity related CRUD operations
  *
  * @author Keshani
- * @since 2021/11/13
+ * @since 2023/03/15
  */
 @Repository
 public interface AnimalDetailRepository extends JpaRepository<AnimalDetail, Long> {

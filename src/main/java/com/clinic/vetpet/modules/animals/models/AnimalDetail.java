@@ -12,10 +12,10 @@ import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 
 /**
- * City entity to store City data
+ * Animal entity to store Animal data
  *
  * @author Keshani
- * @since 2021/11/13
+ * @since 2023/03/15
  */
 @NoArgsConstructor
 @AllArgsConstructor

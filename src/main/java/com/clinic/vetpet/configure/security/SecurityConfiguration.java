@@ -32,16 +32,6 @@ public class SecurityConfiguration {
     @Autowired
     JwtFilter jwtFilter;
 
-//    @Override
-//    protected void configure(HttpSecurity http) throws Exception{
-//        http.authorizeRequests()
-//                .antMatchers("/authenticate").permitAll()
-//                .antMatchers("/admin").hasRole("ADMIN")
-//                .antMatchers("/user").hasAnyRole("ADMIN","USER")
-//                .antMatchers("/").permitAll().and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
-//        http.addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
-//    }
-
     @Bean
     public WebSecurityCustomizer webSecurityCustomizer() {
         return (web) -> web.ignoring().requestMatchers(new AntPathRequestMatcher(GlobalConstants.IN_MEMORY_URL));

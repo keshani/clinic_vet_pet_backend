@@ -5,10 +5,10 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 /**
- * City Dto model to transfer data between client end and server
+ * Animal Dto model to transfer data between client end and server
  *
  * @author Keshani
- * @since 2021/11/13
+ * @since 2023/03/15
  */
 @Setter
 @Getter

@@ -17,7 +17,7 @@ import java.util.Set;
  * User entity for store user information
  *
  * @author Keshani
- * @since 2021/11/13
+ * @since 2023/03/15
  */
 @AllArgsConstructor
 @NoArgsConstructor

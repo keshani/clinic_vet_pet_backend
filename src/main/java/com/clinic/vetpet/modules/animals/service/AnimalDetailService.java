@@ -2,6 +2,7 @@ package com.clinic.vetpet.modules.animals.service;
 
 import com.clinic.vetpet.modules.animals.models.AnimalDetail;
 import com.clinic.vetpet.modules.animals.models.AnimalDetailDto;
+import com.clinic.vetpet.statistics.animalstatistic.models.AnimalStatisticsDto;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 
@@ -18,4 +19,6 @@ public interface AnimalDetailService {
     AnimalDetail updateAnimalDetail(AnimalDetailDto animalDetailDto);
 
     void deleteAnimalDetail(Long animalDetailId);
+
+    AnimalStatisticsDto getAnimalStatistics();
 }

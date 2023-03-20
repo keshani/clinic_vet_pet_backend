@@ -74,7 +74,7 @@ public class UserInfoServiceImpl implements UserInfoService {
     public User addUser(UserDto userDto) {
         Optional<User> existingUser = this.userInfoRepository.findById(userDto.getUserId());
         if (!existingUser.isEmpty()) {
-            throw new RuntimeException("UserName is alredy exisist");
+            throw new RuntimeException("UserName is already exist");
         }
         Role userRole = rolesRepository.findByName(RoleTypes.ROLE_USER);
         Set<Role> roleSet = Set.of(userRole);

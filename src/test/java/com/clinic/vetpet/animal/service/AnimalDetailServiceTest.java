@@ -6,9 +6,12 @@ import com.clinic.vetpet.modules.animals.models.AnimalDetailDto;
 import com.clinic.vetpet.modules.animals.models.AnimalTypes;
 import com.clinic.vetpet.modules.animals.repository.AnimalDetailRepository;
 import com.clinic.vetpet.modules.animals.service.AnimalDetailServiceImpl;
+import com.clinic.vetpet.statistics.animalstatistic.models.AnimalStatistic;
+import com.clinic.vetpet.statistics.animalstatistic.models.AnimalStatisticsDto;
 import org.aspectj.lang.annotation.Before;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
@@ -100,6 +103,47 @@ class AnimalDetailServiceTest {
                 () -> assertEquals(updatedAnimalDetail.getAnimalName(), animalDetailResponse.getAnimalName()),
                 () -> assertEquals(updatedAnimalDetail.getId(), animalDetailResponse.getId())
         );
+    }
+
+
+
+    @Nested
+    class testAnimalStatisticDataTotalCount{
+
+        List<AnimalStatistic> statList;
+        AnimalStatistic stat1;
+        AnimalStatistic stat2;
+        AnimalStatistic stat3;
+        @BeforeEach
+        void init() {
+            stat1 =  new AnimalStatistic(5L, AnimalTypes.CAT);
+            stat2 =  new AnimalStatistic(1L, AnimalTypes.CAT);
+            stat3 =  new AnimalStatistic(2L, AnimalTypes.CAT);
+
+            statList = List.of(stat1,stat2, stat3);
+        }
+        @Test
+        void testAnimalStatTotalCount() {
+            Mockito.when(animalDetailRepository.getAnimalStatistics()).thenReturn(List.of(stat1,stat2, stat3));
+            AnimalStatisticsDto animalStatisticsDto  = animalDetailServiceImpl.getAnimalStatistics();
+
+            Assertions.assertAll(
+                    () -> assertNotNull(animalStatisticsDto),
+                    () -> assertEquals(8,animalStatisticsDto.getTotalAnimals()));
+        }
+        @Test
+        void testAnimalStatTotalCountWithZero() {
+            stat1.setAnimalCount(0L);
+            stat2.setAnimalCount(0L);
+            stat3.setAnimalCount(0L);
+
+            Mockito.when(animalDetailRepository.getAnimalStatistics()).thenReturn(List.of(stat1,stat2, stat3));
+            AnimalStatisticsDto animalStatisticsDto  = animalDetailServiceImpl.getAnimalStatistics();
+
+            Assertions.assertAll(
+                    () -> assertNotNull(animalStatisticsDto),
+                    () -> assertEquals(0,animalStatisticsDto.getTotalAnimals()));
+        }
     }
 
 }

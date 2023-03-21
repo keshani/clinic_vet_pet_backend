@@ -31,7 +31,7 @@ public class AnimalDetailServiceImpl implements AnimalDetailService {
     @Override
     public Page<AnimalDetail> getListOfAnimals(AnimalDetailDto animalDetailDto) {
         Pageable pageable = PageRequest.of(animalDetailDto.getPageNumber(), animalDetailDto.getPageSize());
-        return animalDetailRepository.findByOwnerUserId(animalDetailDto.getOwnerId(), pageable);
+        return animalDetailRepository.findAll(pageable);
     }
 
     @Override

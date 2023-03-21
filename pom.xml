@@ -74,6 +74,12 @@
 			<artifactId>mapstruct</artifactId>
 			<version>1.5.3.Final</version>
 		</dependency>
+		<dependency>
+			<groupId>org.assertj</groupId>
+			<artifactId>assertj-guava</artifactId>
+			<version>3.24.2</version>
+			<scope>test</scope>
+		</dependency>
 
 	</dependencies>
 

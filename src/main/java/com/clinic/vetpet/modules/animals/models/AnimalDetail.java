@@ -44,4 +44,5 @@ public class AnimalDetail implements Serializable {
     @JsonIgnore
     private User owner;
 
+
 }

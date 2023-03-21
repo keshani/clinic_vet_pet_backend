@@ -36,7 +36,7 @@ public class AnimalDetailController {
 
     @PreAuthorize(value = "hasRole('ROLE_ADMIN')")
     @GetMapping("/animals")
-    public ResponseEntity fetchAnimalForUser(@Valid AnimalDetailDto animalDetailDto) {
+    public ResponseEntity getAllAnimals(@Valid AnimalDetailDto animalDetailDto) {
         try {
           Page<AnimalDetail> animalList = animalDetailService.getListOfAnimals(animalDetailDto);
           return ResponseEntity.ok().body(animalList);
@@ -46,7 +46,8 @@ public class AnimalDetailController {
         }
     }
 
-    @GetMapping("/animals/{ownerId}")
+    @PreAuthorize(value = "hasRole('ROLE_USER')")
+    @GetMapping("/{ownerId}/animals")
     public ResponseEntity getAnimalByUserId(@PathVariable String ownerId) {
         try {
             List<AnimalDetail> animalList = animalDetailService.getListOfAnimalsByUser(ownerId);
@@ -56,19 +57,23 @@ public class AnimalDetailController {
             throw ex;
         }
     }
-    @PostMapping("/animals/{ownerId}")
-    public ResponseEntity addAnimalDetails(@Valid @PathVariable String ownerId, @RequestBody AnimalDetailDto animalDetailDto) {
+
+    @PreAuthorize(value = "hasRole('ROLE_USER')")
+    @PostMapping("/{ownerId}/animals")
+    public ResponseEntity addAnimalDetails(@PathVariable String ownerId,  @RequestBody AnimalDetailDto animalDetailDto) {
         try {
-            animalDetailService.addAnimalDetail(animalDetailDto);
-            LOGGER.info("AnimalDetailController::addAnimalDetail Sucess - ", animalDetailDto.getId());
-            return ResponseEntity.ok().body(null);
+            animalDetailDto.setOwnerId(ownerId);
+            AnimalDetail animalDetail = animalDetailService.addAnimalDetail(animalDetailDto);
+            LOGGER.info("AnimalDetailController::addAnimalDetail Sucess - ", animalDetail.getId());
+            return ResponseEntity.ok().body(animalDetail);
         } catch (Exception ex) {
-            LOGGER.info("AnimalDetailController::addAnimalDetail Error - ", animalDetailDto.getId());
+            LOGGER.info("AnimalDetailController::addAnimalDetail Error - ",ex);
             throw ex;
         }
     }
 
-    @PutMapping("/animals/{ownerId}/{id}")
+    @PreAuthorize(value = "hasRole('ROLE_USER')")
+    @PutMapping("/{ownerId}/animals/{id}")
     public ResponseEntity updateAnimalDetails(@Valid @RequestBody AnimalDetailDto animalDetailDto, @PathVariable Long id) {
         try {
             animalDetailDto.setId(id);
@@ -81,6 +86,7 @@ public class AnimalDetailController {
         }
     }
 
+    @PreAuthorize(value = "hasRole('ROLE_USER')")
     @DeleteMapping("/animals/{animalId}")
     public ResponseEntity deleteAnimalDetails( @PathVariable Long animalId) {
         try {

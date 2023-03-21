@@ -46,6 +46,7 @@ public class UserInfoController {
         }
     }
 
+    @PreAuthorize(value = "hasRole('ROLE_USER')")
     @GetMapping("/users/{userId}")
     public ResponseEntity getUserInfo(@PathVariable String userId ) {
         try {
@@ -56,6 +57,8 @@ public class UserInfoController {
             throw ex;
         }
     }
+
+    @PreAuthorize(value = "hasRole('ROLE_USER')")
     @PostMapping("/registerUser")
     public ResponseEntity registerUser(@Valid @RequestBody UserDto userDto) {
         try {
@@ -68,6 +71,7 @@ public class UserInfoController {
         }
     }
 
+    @PreAuthorize(value = "hasRole('ROLE_USER')")
     @PutMapping("/users/{userId}")
     public ResponseEntity updateUser(@Valid @RequestBody UserDto userDto, @PathVariable String userId) {
         try {

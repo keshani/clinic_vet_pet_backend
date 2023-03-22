@@ -58,7 +58,6 @@ public class UserInfoController {
         }
     }
 
-    @PreAuthorize(value = "hasRole('ROLE_USER')")
     @PostMapping("/registerUser")
     public ResponseEntity registerUser(@Valid @RequestBody UserDto userDto) {
         try {

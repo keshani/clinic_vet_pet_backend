@@ -29,7 +29,7 @@ import java.util.Set;
 @Service
 public class JwtFilter extends OncePerRequestFilter {
     @Autowired
-    AppUserDetailsService myUserDetailsService;
+    AppUserDetailsService appUserDetailsService;
     @Autowired
     JWTUtil jWTUtil;
 
@@ -44,7 +44,7 @@ public class JwtFilter extends OncePerRequestFilter {
         }
 
         if(username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
-            UserDetails detail = myUserDetailsService.loadUserByUsername(username);
+            UserDetails detail = appUserDetailsService.loadUserByUsername(username);
             if (jWTUtil.validateToken(jwtToken, detail)) {
                 UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(detail, null, detail.getAuthorities());
                 token.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));

@@ -1,4 +1,4 @@
-package com.clinic.vetpet.authentication.controller;
+package com.clinic.vetpet.security.controller;
 
 import com.clinic.vetpet.CommonUtilFunction;
 import com.clinic.vetpet.configure.model.AppUserDetail;
@@ -27,6 +27,7 @@ import org.springframework.test.context.jdbc.SqlConfig;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.context.WebApplicationContext;
 
 import java.util.Set;
@@ -37,6 +38,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @SpringBootTest
+@Transactional
 @Sql(scripts = "classpath:init/testdata.sql", config = @SqlConfig(separator = ";", commentPrefix = "--"))
 
 public class AuthenticationControllerTest {
@@ -67,7 +69,7 @@ public class AuthenticationControllerTest {
   }
 
     @Test
-    void testAuthenticationValidJwtToken() throws Exception {
+    void testAuthenticationReturnValidJwtToken() throws Exception {
         AuthenticationRequest authReq = new AuthenticationRequest( "TestUserOne", "password");
         MvcResult result =  mockMvc.perform(post("/clinicvetpet/v1/authenticate")
                         .contentType(MediaType.APPLICATION_JSON)

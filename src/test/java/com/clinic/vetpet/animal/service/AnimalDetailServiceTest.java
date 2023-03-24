@@ -54,7 +54,7 @@ class AnimalDetailServiceTest {
 
     @Test
     void testGetListOfAnimals() {
-        Mockito.when(animalDetailRepository.findByOwnerUserId(ownerId.toLowerCase(),pageable)).thenReturn(new PageImpl<AnimalDetail>(Arrays.asList(animalDetail), pageable,  1L));
+        Mockito.when(animalDetailRepository.findAll(pageable)).thenReturn(new PageImpl<AnimalDetail>(Arrays.asList(animalDetail), pageable,  1L));
         Page<AnimalDetail> animalDetailPage = animalDetailServiceImpl.getListOfAnimals(animalDetailDto);
 
         Assertions.assertNotNull(animalDetailPage);

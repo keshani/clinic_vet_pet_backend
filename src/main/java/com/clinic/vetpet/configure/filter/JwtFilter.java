@@ -39,13 +39,18 @@ public class JwtFilter extends OncePerRequestFilter {
         String username = null;
         String jwtToken = null;
         if(authorizationToken != null && authorizationToken.startsWith("Bearer ")) {
+            // retrive the JWT token from the authtoken
             jwtToken = authorizationToken.substring(7);
+            // retrive username from the JWT token
             username =jWTUtil.extractUsername(jwtToken);
         }
 
+        // check weather JWT token has username and security context is not set
         if(username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
             UserDetails detail = appUserDetailsService.loadUserByUsername(username);
+            // validate jwt token against username and expire date
             if (jWTUtil.validateToken(jwtToken, detail)) {
+                // set security context
                 UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(detail, null, detail.getAuthorities());
                 token.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
                 SecurityContextHolder.getContext().setAuthentication(token);

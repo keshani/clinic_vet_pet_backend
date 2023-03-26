@@ -43,8 +43,11 @@ public class AnimalDetailServiceImpl implements AnimalDetailService {
     @Override
     public AnimalDetail addAnimalDetail(AnimalDetailDto animalDetailDto) {
         AnimalDetail animalDetail = new AnimalDetail();
+        // Create user object using owner id inorder to save it in the DB through
+        // relationship
         User owner = new User();
         owner.setUserId(animalDetailDto.getOwnerId());
+
         animalDetail.setOwner(owner);
         animalDetail.setAnimalName(animalDetailDto.getAnimalName());
         animalDetail.setAnimalType(animalDetailDto.getAnimalType());
@@ -70,6 +73,7 @@ public class AnimalDetailServiceImpl implements AnimalDetailService {
     public AnimalStatisticsDto getAnimalStatistics() {
         List<AnimalStatistic> statistics = animalDetailRepository.getAnimalStatistics();
         AnimalStatisticsDto result = new AnimalStatisticsDto();
+        // Calculate total animal count by summing up the animal count againt animal type
         Long totalAnimals = statistics.stream().mapToLong(
                 (stat) -> stat.getAnimalCount()).sum();
 

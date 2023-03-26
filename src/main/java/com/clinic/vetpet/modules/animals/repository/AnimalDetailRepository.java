@@ -24,6 +24,7 @@ public interface AnimalDetailRepository extends JpaRepository<AnimalDetail, Long
 
         List<AnimalDetail> findByOwnerUserId(String userId);
 
+        // get animal count against animal type
         @Query("SELECT new com.clinic.vetpet.statistics.animalstatistic.models.AnimalStatistic(count(a.id) as animalCount, a.animalType) " +
                 "FROM AnimalDetail a " +
                 "GROUP BY a.animalType ")

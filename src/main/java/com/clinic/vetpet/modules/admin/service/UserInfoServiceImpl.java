@@ -73,14 +73,18 @@ public class UserInfoServiceImpl implements UserInfoService {
     @Override
     public User addUser(UserDto userDto) {
         Optional<User> existingUser = this.userInfoRepository.findById(userDto.getUserId());
+        // check weather there is existing user for given user id
         if (!existingUser.isEmpty()) {
             throw new RuntimeException("UserName is already exist");
         }
+        // get default user role details
         Role userRole = rolesRepository.findByName(RoleTypes.ROLE_USER);
         Set<Role> roleSet = Set.of(userRole);
+
         User userInfo = new User();
         userInfo.setUserId(userDto.getUserId());
         userInfo.setRoles(roleSet);
+        // encode password before saving it to the DB
         userInfo.setPassword(this.bCryptPasswordEncoder.encode(userDto.getPassword()));
         userInfo.setUserFullName(userDto.getUserFullName());
         userInfo.setEnabled(true);
